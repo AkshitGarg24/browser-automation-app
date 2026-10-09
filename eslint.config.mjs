@@ -13,7 +13,7 @@ const eslintConfig = defineConfig([
         "error",
         {
           protected: ["**"],
-          public: ["app/(public)/**", "app/sign-in/**", "app/sign-up/**"],
+          public: ["app/(public)/**"],
         },
       ],
     },
