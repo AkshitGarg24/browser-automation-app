@@ -1,11 +1,4 @@
-import {
-  ClerkProvider,
-  Show,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-  OrganizationSwitcher,
-} from "@clerk/nextjs"
+import { ClerkProvider } from "@clerk/nextjs"
 import { shadcn } from "@clerk/ui/themes"
 import { Geist, Geist_Mono } from "next/font/google"
 
@@ -43,16 +36,6 @@ export default function RootLayout({
           taskUrls={{ 'choose-organization': '/choose-organization' }}
         >
           <ThemeProvider>
-            <header className="flex items-center justify-end gap-2 border-b px-6 py-3">
-              <Show when="signed-out">
-                <SignInButton />
-                <SignUpButton />
-              </Show>
-              <Show when="signed-in">
-                <OrganizationSwitcher />
-                <UserButton />
-              </Show>
-            </header>
             {children}
             <Toaster />
           </ThemeProvider>

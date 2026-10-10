@@ -54,6 +54,12 @@
       "sourceType": "github",
       "skillPath": "skills/clerk-webhooks/SKILL.md",
       "computedHash": "2e09a26af49fcd7081b9c370e9c2008f1ff5ee4474141fd2c693431358c9e4ec"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "2d7bf36e581289fdcc3ffc592c1ec1d7457572baa72ba0d440229ef34bd7f6dd"
     }
   }
 }
