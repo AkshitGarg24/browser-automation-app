@@ -1,7 +1,8 @@
 import * as React from "react"
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 
-import { SidebarWorkflows } from "@/components/sidebar-workflows"
+import { listWorkflowsAction } from "@/features/workflows/action"
+import { SidebarWorkflows } from "@/features/workflows/components/sidebar-workflows"
 import {
   Sidebar,
   SidebarContent,
@@ -10,21 +11,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-// Dummy workflows for now; to be fetched from database in the future
-const DUMMY_WORKFLOWS = [
-  "dominant-wasp",
-  "honest-reindeer",
-  "expected-llama",
-  "essential-ocelot",
-  "creepy-echidna",
-  "eastern-silkworm",
-  "cultural-lion",
-  "proud-weasel",
-  "regional-bonobo",
-]
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const workflows = DUMMY_WORKFLOWS
+export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const workflows = await listWorkflowsAction()
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border" {...props}>

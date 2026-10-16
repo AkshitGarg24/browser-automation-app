@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Plus, Workflow } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Loader2, Plus, Workflow } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,14 +22,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { createWorkflowAction } from "@/features/workflows/action"
+import type { WorkflowSelect } from "@/lib/db/schema"
 import { cn } from "@/lib/utils"
 
 interface SidebarWorkflowsProps {
-  workflows: string[]
+  workflows: WorkflowSelect[]
 }
 
 export function SidebarWorkflows({ workflows }: SidebarWorkflowsProps) {
-  const [activeWorkflow, setActiveWorkflow] = React.useState<string>(workflows[0] ?? "")
+  const pathname = usePathname()
+  const [isPending, startTransition] = React.useTransition()
+
+  const handleCreateWorkflow = () => {
+    startTransition(async () => {
+      await createWorkflowAction()
+    })
+  }
 
   return (
     <>
@@ -38,21 +49,27 @@ export function SidebarWorkflows({ workflows }: SidebarWorkflowsProps) {
         </SidebarGroupLabel>
         <SidebarGroupAction
           title="Create workflow"
+          onClick={handleCreateWorkflow}
+          disabled={isPending}
           className="text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
         >
-          <Plus className="size-4" />
+          {isPending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Plus className="size-4" />
+          )}
           <span className="sr-only">Create workflow</span>
         </SidebarGroupAction>
 
         <SidebarGroupContent className="mt-1">
           <SidebarMenu className="gap-0.5">
             {workflows.map((workflow) => {
-              const isActive = activeWorkflow === workflow
+              const isActive = pathname === `/workflows/${workflow.id}`
               return (
-                <SidebarMenuItem key={workflow}>
+                <SidebarMenuItem key={workflow.id}>
                   <SidebarMenuButton
+                    asChild
                     isActive={isActive}
-                    onClick={() => setActiveWorkflow(workflow)}
                     className={cn(
                       "h-9 px-2.5 text-sm font-normal rounded-md transition-colors",
                       isActive
@@ -60,7 +77,9 @@ export function SidebarWorkflows({ workflows }: SidebarWorkflowsProps) {
                         : "text-sidebar-foreground/90 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     )}
                   >
-                    <span className="truncate">{workflow}</span>
+                    <Link href={`/workflows/${workflow.id}`}>
+                      <span className="truncate">{workflow.name}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )
@@ -84,23 +103,34 @@ export function SidebarWorkflows({ workflows }: SidebarWorkflowsProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right" align="start" className="w-56">
-            <DropdownMenuItem className="gap-2 font-medium cursor-pointer">
-              <Plus className="size-4" />
+            <DropdownMenuItem
+              onClick={handleCreateWorkflow}
+              disabled={isPending}
+              className="gap-2 font-medium cursor-pointer"
+            >
+              {isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Plus className="size-4" />
+              )}
               <span>New workflow</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {workflows.map((workflow) => {
-              const isActive = activeWorkflow === workflow
+              const isActive = pathname === `/workflows/${workflow.id}`
               return (
                 <DropdownMenuItem
-                  key={workflow}
-                  onClick={() => setActiveWorkflow(workflow)}
+                  key={workflow.id}
+                  asChild
                   className={cn(
                     "cursor-pointer",
-                    isActive && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                    isActive &&
+                      "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
                   )}
                 >
-                  <span className="truncate">{workflow}</span>
+                  <Link href={`/workflows/${workflow.id}`}>
+                    <span className="truncate">{workflow.name}</span>
+                  </Link>
                 </DropdownMenuItem>
               )
             })}
