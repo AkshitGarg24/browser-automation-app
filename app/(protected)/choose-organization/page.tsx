@@ -12,7 +12,7 @@ export default async function ChooseOrganizationPage() {
       <Suspense fallback={null}>
         <ChooseOrgToast />
       </Suspense>
-      <TaskChooseOrganization redirectUrlComplete="/dashboard" />
+      <TaskChooseOrganization redirectUrlComplete="/" />
     </div>
   )
 }
