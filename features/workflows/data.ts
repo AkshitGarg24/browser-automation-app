@@ -1,3 +1,5 @@
+import { eq } from "drizzle-orm";
+
 import { db } from "@/lib/db";
 import {
   workflows,
@@ -21,4 +23,8 @@ export async function createWorkflow({
     .returning();
 
   return workflow;
+}
+
+export async function deleteWorkflowsByOrgId(orgId: string): Promise<void> {
+  await db.delete(workflows).where(eq(workflows.orgId, orgId));
 }
