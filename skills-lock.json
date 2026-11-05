@@ -103,6 +103,12 @@
       "skillPath": "skills/neon-postgres-egress-optimizer/SKILL.md",
       "computedHash": "d08a9a558f8236e1403a5ef2221ef4c0d075166a246a83d730493a7fe377ae46"
     },
+    "react-flow": {
+      "source": "framara/react-flow-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "f44b22c3a89a3197bc390cef11ea1dd6f0f8f39564e13e7a6663134452851bb8"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
